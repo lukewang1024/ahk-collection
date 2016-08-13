@@ -15,11 +15,12 @@ WinGetActiveProcessName() {
 }
 
 ; --------------------------------------------------------------------
-; Register Alt-k, Alt-j as Up, Down for a given ahk_class
+; Register Alt-k, Alt-j as Up, Down
+; for a given ahk_class / ahk_exe
 ;
-registerUpDown(ahkClass)
+registerUpDown(pattern)
 {
-  Hotkey, IfWinActive, ahk_class %ahkClass%
+  Hotkey, IfWinActive, %pattern%
   Hotkey, !j, SendDown, On
   Hotkey, !k, SendUp, On
   Hotkey, IfWinActive
@@ -31,6 +32,37 @@ registerUpDown(ahkClass)
 
   SendUp:
   Send {Up}
+  return
+}
+
+; --------------------------------------------------------------------
+; Register Alt-k, Alt-j, Alt-h, Alt-l as Up, Down, Left, Right
+; for a given ahk_class / ahk_exe
+;
+registerArrows(pattern)
+{
+  Hotkey, IfWinActive, %pattern%
+  Hotkey, !j, ArrowDown, On
+  Hotkey, !k, ArrowUp, On
+  Hotkey, !h, ArrowLeft, On
+  Hotkey, !l, ArrowRight, On
+  Hotkey, IfWinActive
+  return
+
+  ArrowDown:
+  Send {Down}
+  return
+
+  ArrowUp:
+  Send {Up}
+  return
+
+  ArrowLeft:
+  Send {Left}
+  return
+
+  ArrowRight:
+  Send {Right}
   return
 }
 
