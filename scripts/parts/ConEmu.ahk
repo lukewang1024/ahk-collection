@@ -41,8 +41,4 @@ return
   Send ^!z
   Send #!p
 return
-^n::
-  Send ^!z
-  Send ^n
-return
 #IfWinActive
