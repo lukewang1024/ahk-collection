@@ -1,4 +1,0 @@
-[submodule "scripts/runz"]
-	path = scripts/runz
-	url = https://github.com/goreliu/runz.git
-	branch = master
