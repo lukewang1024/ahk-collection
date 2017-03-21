@@ -90,6 +90,11 @@ return
 clickAndBack(180, 570)
 return
 
+#IfWinActive ahk_class ChatWnd
+!s::
+clickAndBack(A_CaretX + 2, A_CaretY - 2)
+return
+
 #IfWinActive ahk_class AddMemberWnd
 !x::
 clickAndBack(50, 25)

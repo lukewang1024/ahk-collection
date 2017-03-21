@@ -11,7 +11,7 @@ DetectHiddenWindows, On
 ; Default-directive hotkeys (must stay before Specific-directive ones)
 #include VimNav.ahk
 ; Specific-directive hotkeys
-#include AltBacktick.ahk
+; #include AltBacktick.ahk
 #include ConEmu.ahk
 #include Skype.ahk
 #include WeChat.ahk
