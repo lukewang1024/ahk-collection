@@ -30,3 +30,6 @@ registerArrows("ahk_exe Lingoes.exe")
 
 ; Double Commander
 registerArrows("ahk_exe doublecmd.exe")
+
+; Switcherwoo
+registerArrows("ahk_exe switcheroo.exe")
