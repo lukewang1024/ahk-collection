@@ -75,3 +75,15 @@ clickAndBack(x, y, n = 1)
   Click %x%, %y%, %n%
   MouseMove, x0, y0
 }
+
+multipleClickAndBack(positions, n = 1)
+{
+  MouseGetPos, x0, y0
+  for index, position in positions
+  {
+    x := position[1]
+    y := position[2]
+    Click %x%, %y%, %n%
+  }
+  MouseMove, x0, y0
+}

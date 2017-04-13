@@ -27,15 +27,26 @@
 
 SetDefaultMouseSpeed, 0
 
+clickWechatChatItem(index)
+{
+  chatListPosX := 60
+  chatListPosY := 62
+  chatItemW := 240
+  chatItemH := 63
+  chatItemClickX := chatListPosX + chatItemW / 2
+  chatItemClickY := chatListPosY + chatItemH / 2
+  clickAndBack(chatItemClickX, chatItemClickY + index * chatItemH)
+}
+
 #IfWinActive ahk_class WeChatMainWndForPC
 !s::
 clickAndBack(A_CaretX + 2, A_CaretY - 2)
 return
 !x::
-clickAndBack(80, 30)
+clickAndBack(175, 37)
 return
 !n::
-clickAndBack(275, 30)
+clickAndBack(284, 37)
 return
 !c::
 clickFirstToggle()
@@ -50,44 +61,46 @@ if testColor <> 0xDEDEDE
 clickAndBack(260, 380)
 return
 ^1::
-clickAndBack(25, 70)
+clickAndBack(30, 90)
 return
 ^2::
-clickAndBack(25, 120)
+clickAndBack(30, 145)
 return
 ^3::
-clickAndBack(25, 160)
+clickAndBack(30, 190)
 return
 ^,::
 WinGetPos, , , , h, A
-clickAndBack(25, h - 25)
+click1 := [30, h - 25]
+click2 := [70, 65]
+multipleClickAndBack([ click1, click2 ])
 return
 !1::
-clickAndBack(180, 70)
+clickWechatChatItem(0)
 return
 !2::
-clickAndBack(180, 130)
+clickWechatChatItem(1)
 return
 !3::
-clickAndBack(180, 200)
+clickWechatChatItem(2)
 return
 !4::
-clickAndBack(180, 260)
+clickWechatChatItem(3)
 return
 !5::
-clickAndBack(180, 330)
+clickWechatChatItem(4)
 return
 !6::
-clickAndBack(180, 390)
+clickWechatChatItem(5)
 return
 !7::
-clickAndBack(180, 450)
+clickWechatChatItem(6)
 return
 !8::
-clickAndBack(180, 520)
+clickWechatChatItem(7)
 return
 !9::
-clickAndBack(180, 570)
+clickWechatChatItem(8)
 return
 
 #IfWinActive ahk_class ChatWnd
