@@ -18,7 +18,8 @@ DetectHiddenWindows, On
 
 ; Remap Capslock to Backspace. LAlt-Capslock as original Capslock function
 <^Capslock::Capslock
-Capslock::Ctrl
+Capslock::Send,{Ctrl Down}{Alt Down}{LWin Down}
+Capslock Up::Send,{Ctrl Up}{Alt Up}{LWin Up}
 
 ; Remap RShift to Escape
 ; RShift::Escape
