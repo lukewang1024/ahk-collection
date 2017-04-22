@@ -10,8 +10,8 @@ DetectHiddenWindows, On
 #include %A_ScriptDir%\parts
 ; Default-directive hotkeys (must stay before Specific-directive ones)
 #include VimNav.ahk
+#include AppShortcut.ahk
 ; Specific-directive hotkeys
-; #include AltBacktick.ahk
 #include ConEmu.ahk
 #include Skype.ahk
 #include WeChat.ahk

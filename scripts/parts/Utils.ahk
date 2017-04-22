@@ -1,3 +1,5 @@
+#Include ..\..\includes\TrayIcon.ahk
+
 ; --------------------------------------------------------------------
 ; Return the real process name of the active window (even for UWP apps)
 ;
@@ -21,8 +23,8 @@ WinGetActiveProcessName() {
 registerUpDown(pattern)
 {
   Hotkey, IfWinActive, %pattern%
-  Hotkey, !j, SendDown, On
-  Hotkey, !k, SendUp, On
+  Hotkey, ^!#j, SendDown, On
+  Hotkey, ^!#k, SendUp, On
   Hotkey, IfWinActive
   return
 
@@ -86,4 +88,40 @@ multipleClickAndBack(positions, n = 1)
     Click %x%, %y%, %n%
   }
   MouseMove, x0, y0
+}
+
+; --------------------------------------------------------------------
+; Toggle app window visibility for apps that can be hidden to system tray
+;
+toggleAppWindowWithTray(sExeName, isDoubleClick := false)
+{
+  Process, Exist, %sExeName%
+  targetPid = %ErrorLevel%
+
+  if (targetPid == 0)
+    return
+
+  IfWinActive, ahk_pid %targetPid%
+    ; 0x112 = WM_SYSCOMMAND, 0xF060 = SC_CLOSE
+    PostMessage, 0x112, 0xF060
+  else IfWinNotActive, ahk_pid %targetPid%
+  {
+    TrayIcon_Button(targetPid, "L", isDoubleClick)
+    WinActivate
+  }
+}
+
+; --------------------------------------------------------------------
+; Minimize / restore app window
+; for a given ahk_class / ahk_exe
+;
+toggleAppWindow(pattern)
+{
+  IfWinNotExist, %pattern%
+    return
+
+  IfWinActive, %pattern%
+    WinMinimize
+  else IfWinNotActive, %pattern%
+    WinActivate
 }
