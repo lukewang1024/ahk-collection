@@ -54,8 +54,14 @@ clickWechatChatItem(index)
   clickAndBack(chatItemClickX, chatItemClickY + index * chatItemH)
 }
 
+sendSticker()
+{
+  clickAndBack(A_CaretX + 2, A_CaretY - 2)
+  WinActivate, ahk_class WeChatMainWndForPC
+}
+
 #IfWinActive ahk_class WeChatMainWndForPC
-!s::clickAndBack(A_CaretX + 2, A_CaretY - 2)
+!s::sendSticker()
 !x::clickAndBack(175, 37)
 !n::clickAndBack(284, 37)
 !c::clickFirstToggle()
@@ -90,7 +96,7 @@ return
 !9::clickWechatChatItem(8)
 
 #IfWinActive ahk_class ChatWnd
-!s::clickAndBack(A_CaretX + 2, A_CaretY - 2)
+!s::sendSticker()
 
 #IfWinActive ahk_class AddMemberWnd
 !x::clickAndBack(50, 25)
