@@ -27,120 +27,7 @@
 
 SetDefaultMouseSpeed, 0
 
-clickWechatChatItem(index)
-{
-  chatListPosX := 60
-  chatListPosY := 62
-  chatItemW := 240
-  chatItemH := 63
-  chatItemClickX := chatListPosX + chatItemW / 2
-  chatItemClickY := chatListPosY + chatItemH / 2
-  clickAndBack(chatItemClickX, chatItemClickY + index * chatItemH)
-}
-
-#IfWinActive ahk_class WeChatMainWndForPC
-!s::
-clickAndBack(A_CaretX + 2, A_CaretY - 2)
-return
-!x::
-clickAndBack(175, 37)
-return
-!n::
-clickAndBack(284, 37)
-return
-!c::
-clickFirstToggle()
-return
-!g::
-PixelGetColor, testColor, 150, 380
-if testColor <> 0xDEDEDE
-{
-  clickFirstToggle()
-  return
-}
-clickAndBack(260, 380)
-return
-^1::
-clickAndBack(30, 90)
-return
-^2::
-clickAndBack(30, 145)
-return
-^3::
-clickAndBack(30, 190)
-return
-^,::
-WinGetPos, , , , h, A
-click1 := [30, h - 25]
-click2 := [70, 65]
-multipleClickAndBack([ click1, click2 ])
-return
-!1::
-clickWechatChatItem(0)
-return
-!2::
-clickWechatChatItem(1)
-return
-!3::
-clickWechatChatItem(2)
-return
-!4::
-clickWechatChatItem(3)
-return
-!5::
-clickWechatChatItem(4)
-return
-!6::
-clickWechatChatItem(5)
-return
-!7::
-clickWechatChatItem(6)
-return
-!8::
-clickWechatChatItem(7)
-return
-!9::
-clickWechatChatItem(8)
-return
-
-#IfWinActive ahk_class ChatWnd
-!s::
-clickAndBack(A_CaretX + 2, A_CaretY - 2)
-return
-
-#IfWinActive ahk_class AddMemberWnd
-!x::
-clickAndBack(50, 25)
-return
-
-#IfWinActive, ahk_class SelectContactWnd
-!x::
-clickAndBack(50, 25)
-return
-
-#IfWinActive ahk_class ImagePreviewWnd
-r::
-WinGetPos, , , w, h, A
-clickAndBack(w / 2 + 60, h - 40)
-return
-s::
-Send ^s
-return
-j::
-Send {Right}
-return
-k::
-Send {Left}
-return
-
-#IfWinActive ahk_class CefWebViewWnd
-!x::
-WinGetPos, , , w
-clickAndBack(w - 25, 65)
-return
-
-; Clean up the directive to avoid messing up with other code
-#ifwinactive
+#include Utils.ahk
 
 ;
 ; Util functions
@@ -154,5 +41,78 @@ clickFirstToggle()
     return
   }
   clickAndBack(260, 60)
+}
+
+clickWechatChatItem(index)
+{
+  chatListPosX := 60
+  chatListPosY := 62
+  chatItemW := 240
+  chatItemH := 63
+  chatItemClickX := chatListPosX + chatItemW / 2
+  chatItemClickY := chatListPosY + chatItemH / 2
+  clickAndBack(chatItemClickX, chatItemClickY + index * chatItemH)
+}
+
+#IfWinActive ahk_class WeChatMainWndForPC
+!s::clickAndBack(A_CaretX + 2, A_CaretY - 2)
+!x::clickAndBack(175, 37)
+!n::clickAndBack(284, 37)
+!c::clickFirstToggle()
+!g::
+PixelGetColor, testColor, 150, 380
+if testColor <> 0xDEDEDE
+{
+  clickFirstToggle()
   return
 }
+clickAndBack(260, 380)
+return
+^1::clickAndBack(30, 90)
+^2::clickAndBack(30, 145)
+^3::clickAndBack(30, 190)
+
+^,::
+WinGetPos, , , , h, A
+click1 := [30, h - 25]
+click2 := [70, 65]
+multipleClickAndBack([ click1, click2 ])
+return
+
+!1::clickWechatChatItem(0)
+!2::clickWechatChatItem(1)
+!3::clickWechatChatItem(2)
+!4::clickWechatChatItem(3)
+!5::clickWechatChatItem(4)
+!6::clickWechatChatItem(5)
+!7::clickWechatChatItem(6)
+!8::clickWechatChatItem(7)
+!9::clickWechatChatItem(8)
+
+#IfWinActive ahk_class ChatWnd
+!s::clickAndBack(A_CaretX + 2, A_CaretY - 2)
+
+#IfWinActive ahk_class AddMemberWnd
+!x::clickAndBack(50, 25)
+
+#IfWinActive, ahk_class SelectContactWnd
+!x::clickAndBack(50, 25)
+
+#IfWinActive ahk_class ImagePreviewWnd
+r::
+WinGetPos, , , w, h, A
+clickAndBack(w / 2 + 60, h - 40)
+return
+
+s::Send ^s
+j::Send {Right}
+k::Send {Left}
+
+#IfWinActive ahk_class CefWebViewWnd
+!x::
+WinGetPos, , , w
+clickAndBack(w - 25, 65)
+return
+
+; Clean up the directive to avoid messing up with other code
+#ifwinactive
