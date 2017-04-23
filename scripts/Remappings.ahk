@@ -8,8 +8,10 @@ SetTitleMatchMode 2
 DetectHiddenWindows, On
 
 #include %A_ScriptDir%\parts
+#include Utils.ahk
 ; Default-directive hotkeys (must stay before Specific-directive ones)
 #include VimNav.ahk
+#include AdvancedWindowSnap.ahk
 #include AppShortcut.ahk
 ; Specific-directive hotkeys
 #include ConEmu.ahk
