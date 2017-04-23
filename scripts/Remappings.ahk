@@ -51,61 +51,9 @@ toggleAppWindow(pattern)
     WinActivate
 }
 
-; --------------------------------------------------------------------
-; Enable / disable no-modifier version of vim navigation keys
-;
-setVimNavKeys(state)
-{
-  Hotkey, j, %state%
-  Hotkey, k, %state%
-  Hotkey, h, %state%
-  Hotkey, l, %state%
-}
-
-handleCapslockSend(newKey, oldKey)
-{
-  GetKeyState, state, CapsLock, P
-  if state = D
-  {
-    Send %newKey%
-    setVimNavKeys("on")
-    Keywait, CapsLock
-    setVimNavKeys("off")
-    return
-  }
-  Send %oldKey%
-}
-
-handleCapslockToggleAppWindow(match, oldKey)
-{
-  GetKeyState, state, CapsLock, P
-  if state = D
-  {
-    toggleAppWindow(match)
-    return
-  }
-  Send %oldKey%
-}
-
-handleCapslockToggleAppWindowWithTray(sExeName, oldKey, isDouble := false)
-{
-  GetKeyState, state, CapsLock, P
-  if state = D
-  {
-    toggleAppWindowWithTray(sExeName, isDouble)
-    return
-  }
-  Send %oldKey%
-}
-
-setVimNavKeys("off")
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; auto-execute section end ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-; Remap Capslock to Control.
-CapsLock::Control
 
 ; Make Win Key + Capslock work like Capslock
 #Capslock::
@@ -119,39 +67,35 @@ Return
 ;;; vim-like navigations ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-j::Send {Down}
-k::Send {Up}
-h::Send {Left}
-l::Send {Right}
-$^j::handleCapslockSend("{Down}", "^j")
-$^k::handleCapslockSend("{Up}", "^k")
-$^h::handleCapslockSend("{Left}", "^h")
-$^l::handleCapslockSend("{Right}", "^l")
+Capslock & j::Send {Down}
+Capslock & k::Send {Up}
+Capslock & h::Send {Left}
+Capslock & l::Send {Right}
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Application shortcuts ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; ST3: Capslock + s
-$^s::handleCapslockToggleAppWindow("ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe", "^s")
+Capslock & s::toggleAppWindow("ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe")
 ; Atom: Capslock + a
-$^a::handleCapslockToggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe atom.exe", "^a")
+Capslock & a::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe atom.exe")
 ; VS Code: Capslock + v
-$^v::handleCapslockToggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe Code.exe", "^v")
+Capslock & v::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe Code.exe")
 ; Chrome: Capslock + c
-$^c::handleCapslockToggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe", "^c")
+Capslock & c::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")
 ; Lingoes: Capslock + d
-$^d::handleCapslockToggleAppWindowWithTray("Lingoes.exe", "^d")
+Capslock & d::toggleAppWindowWithTray("Lingoes.exe")
 ; WeChat: Capslock + m
-$^m::handleCapslockToggleAppWindowWithTray("WeChat.exe", "^m")
+Capslock & m::toggleAppWindowWithTray("WeChat.exe")
 ; Skype: Capslock + o
-$^o::handleCapslockToggleAppWindowWithTray("Skype.exe", "^o", true)
+Capslock & o::toggleAppWindowWithTray("Skype.exe", true)
 ; Slack: Capslock + u
-$^u::handleCapslockToggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe slack.exe", "^u")
+Capslock & u::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe slack.exe")
 ; Whatsapp: Capslock + i
-$^i::handleCapslockToggleAppWindow("WhatsApp ahk_exe WhatsApp.exe", "^i")
+Capslock & i::toggleAppWindow("WhatsApp ahk_exe WhatsApp.exe")
 ; Postman: Capslock + y
-$^y::handleCapslockToggleAppWindow("Postman ahk_class Chrome_WidgetWin_1", "^y")
+Capslock & y::toggleAppWindow("Postman ahk_class Chrome_WidgetWin_1")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ConEmu workarounds ;;;
