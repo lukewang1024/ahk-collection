@@ -76,26 +76,47 @@ Capslock & l::Send {Right}
 ;;; Application shortcuts ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; ST3: Capslock + s
-Capslock & s::toggleAppWindow("ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe")
-; Atom: Capslock + a
+; Use Capslock as prefix
+
+; a - Atom
 Capslock & a::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe atom.exe")
-; VS Code: Capslock + v
-Capslock & v::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe Code.exe")
-; Chrome: Capslock + c
-Capslock & c::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")
-; Lingoes: Capslock + d
+; b - Chrome
+Capslock & b::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe chrome.exe")
+; d - Lingoes
 Capslock & d::toggleAppWindowWithTray("Lingoes.exe")
-; WeChat: Capslock + m
-Capslock & m::toggleAppWindowWithTray("WeChat.exe")
-; Skype: Capslock + o
+; e - ST3
+Capslock & e::toggleAppWindow("ahk_class PX_WINDOW_CLASS ahk_exe sublime_text.exe")
+; i - WeChat
+Capslock & i::toggleAppWindowWithTray("WeChat.exe")
+; m - Slack
+Capslock & m::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe slack.exe")
+; n - OneNote
+Capslock & n::toggleAppWindow("ahk_class Framework::CFrame ahk_exe ONENOTE.EXE")
+; o - Skype
 Capslock & o::toggleAppWindowWithTray("Skype.exe", true)
-; Slack: Capslock + u
-Capslock & u::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe slack.exe")
-; Whatsapp: Capslock + i
-Capslock & i::toggleAppWindow("WhatsApp ahk_exe WhatsApp.exe")
-; Postman: Capslock + y
-Capslock & y::toggleAppWindow("Postman ahk_class Chrome_WidgetWin_1")
+; p - Spotify
+Capslock & p::toggleAppWindow("ahk_class SpotifyMainWindow ahk_exe Spotify.exe")
+; u - TIM (QQ)
+Capslock & u::toggleAppWindowWithTray("TIM.exe")
+; v - VS Code
+Capslock & v::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe Code.exe")
+; y - Postman
+Capslock & y::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe Postman.exe")
+; z - Zeplin
+Capslock & z::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe Zeplin.exe")
+; , - Whatsapp
+Capslock & ,::toggleAppWindow("ahk_class Chrome_WidgetWin_1 ahk_exe WhatsApp.exe")
+
+;;;;;;;;;;;;;;;;;;;;;;;
+;;; Skype shortcuts ;;;
+;;;;;;;;;;;;;;;;;;;;;;;
+;
+; Map Capslock + 1/2 as Skype default shortcut Alt + 1/2
+;
+#IfWinActive ahk_class tSkMainForm ahk_exe Skype.exe
+Capslock & 1::Send !1
+Capslock & 2::Send !2
+#IfWinActive
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ConEmu workarounds ;;;
