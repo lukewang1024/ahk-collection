@@ -24,12 +24,14 @@ toggleAppWindowWithTray(sExeName, isDoubleClick := false)
     return
   }
 
-  IfWinActive, ahk_pid %targetPid%
+  winTitle = ahk_pid %targetPid%
+
+  IfWinActive, %winTitle%
   {
     ; 0x112 = WM_SYSCOMMAND, 0xF060 = SC_CLOSE
     PostMessage, 0x112, 0xF060
   }
-  else IfWinNotActive, ahk_pid %targetPid%
+  else IfWinNotActive, %winTitle%
   {
     TrayIcon_Button(targetPid, "L", isDoubleClick)
     WinActivate
@@ -40,14 +42,14 @@ toggleAppWindowWithTray(sExeName, isDoubleClick := false)
 ; Minimize / restore app window
 ; for a given ahk_class / ahk_exe
 ;
-toggleAppWindow(pattern)
+toggleAppWindow(winTitle)
 {
-  IfWinNotExist, %pattern%
+  IfWinNotExist, %winTitle%
     return
 
-  IfWinActive, %pattern%
+  IfWinActive, %winTitle%
     WinMinimize
-  else IfWinNotActive, %pattern%
+  else IfWinNotActive, %winTitle%
     WinActivate
 }
 

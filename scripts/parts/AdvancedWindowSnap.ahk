@@ -2,42 +2,27 @@
  * Advanced Window Snap
  */
 SnapActiveWindow(winPlaceHorizontal, winPlaceVertical, winSizeWidth, winSizeHeight) {
-  WinGet activeWin, ID, A
+  WinGet, activeWin, ID, A
+  if (activeWin == 0) {
+      return
+  }
+
+  ; Some apps cannot be moved when maximized
+  WinGet, minMax, MinMax, ahk_id %activeWin%
+  if (minMax == 1) {
+      WinRestore, ahk_id %activeWin%
+  }
+
   activeMon := GetMonitorIndexFromWindow(activeWin)
+  SysGet, workArea, MonitorWorkArea, %activeMon%
 
-  SysGet, MonitorWorkArea, MonitorWorkArea, %activeMon%
+  workAreaWidth := workAreaRight - workAreaLeft
+  workAreaHeight := workAreaBottom - workAreaTop
 
-  width := MonitorWorkAreaRight - MonitorWorkAreaLeft
-  if (winSizeWidth == "half") {
-    width := width / 2
-  } else if (winSizeWidth == "third") {
-    width := width / 3
-  } else if (winSizeWidth == "2third") {
-    width := width / 3 * 2
-  }
-
-  height := MonitorWorkAreaBottom - MonitorWorkAreaTop
-  if (winSizeHeight == "half") {
-    height := height / 2
-  } else if (winSizeHeight == "third") {
-    height := height / 3
-  } else if (winSizeHeight == "2third") {
-    height := height / 3 * 2
-  }
-
-  if (winPlaceHorizontal == "right") {
-    posX := MonitorWorkAreaRight - width
-  } else if (winPlaceHorizontal == "middle") {
-    posX := MonitorWorkAreaLeft + width
-  } else {
-    posX := MonitorWorkAreaLeft
-  }
-
-  if (winPlaceVertical == "bottom") {
-    posY := MonitorWorkAreaBottom - height
-  } else {
-    posY := MonitorWorkAreaTop
-  }
+  width := workAreaWidth * winSizeWidth
+  height := workAreaHeight * winSizeHeight
+  posX := workAreaLeft + workAreaWidth * winPlaceHorizontal
+  posY := workAreaTop + workAreaHeight * winPlaceVertical
 
   WinMove, A, , %posX%, %posY%, %width%, %height%
 }
@@ -84,46 +69,76 @@ GetMonitorIndexFromWindow(windowHandle) {
   return %monitorIndex%
 }
 
-#If GetKeyState("Ctrl", "P") and !GetKeyState("Shift", "P")
+#If GetKeyState("Ctrl", "P") and !GetKeyState("Alt", "P")
 
-Capslock & Up::   SnapActiveWindow("left", "top", "full", "third")
-Capslock & Down:: SnapActiveWindow("left", "bottom", "full", "third")
-Capslock & Left:: SnapActiveWindow("left", "top", "third", "full")
-Capslock & Right::SnapActiveWindow("right", "top", "third", "full")
+Capslock & Up::    SnapActiveWindow(  0,  0,  1, .8 )
+Capslock & Down::  SnapActiveWindow(  0, .8,  1, .2 )
+Capslock & Left::  SnapActiveWindow(  0,  0, .8,  1 )
+Capslock & Right:: SnapActiveWindow( .8,  0, .2,  1 )
 
-#If !GetKeyState("Ctrl", "P") and GetKeyState("Shift", "P")
+Capslock & Numpad7::SnapActiveWindow(  0,  0, .2, .5 )
+Capslock & Numpad8::SnapActiveWindow(  0,  0,  1, .8 )
+Capslock & Numpad9::SnapActiveWindow( .8,  0, .2, .5 )
+Capslock & Numpad4::SnapActiveWindow(  0,  0, .8,  1 )
+Capslock & Numpad5::SnapActiveWindow(  0,  0,  1,  1 )
+Capslock & Numpad6::SnapActiveWindow( .2,  0, .8,  1 )
+Capslock & Numpad1::SnapActiveWindow(  0, .5, .2, .5 )
+Capslock & Numpad2::SnapActiveWindow(  0, .8,  1, .2 )
+Capslock & Numpad3::SnapActiveWindow( .8, .5, .2, .5 )
 
-Capslock & Up::   SnapActiveWindow("left", "top", "full", "2third")
-Capslock & Down:: SnapActiveWindow("left", "bottom", "full", "2third")
-Capslock & Left:: SnapActiveWindow("left", "top", "2third", "full")
-Capslock & Right::SnapActiveWindow("right", "top", "2third", "full")
+#If !GetKeyState("Ctrl", "P") and GetKeyState("Alt", "P")
+
+Capslock & Up::    SnapActiveWindow(  0,  0,  1, .6 )
+Capslock & Down::  SnapActiveWindow(  0, .6,  1, .4 )
+Capslock & Left::  SnapActiveWindow(  0,  0, .6,  1 )
+Capslock & Right:: SnapActiveWindow( .6,  0, .4,  1 )
+
+Capslock & Numpad7::SnapActiveWindow(  0,  0, .4, .5 )
+Capslock & Numpad8::SnapActiveWindow(  0,  0,  1, .6 )
+Capslock & Numpad9::SnapActiveWindow( .6,  0, .4, .5 )
+Capslock & Numpad4::SnapActiveWindow(  0,  0, .6,  1 )
+Capslock & Numpad5::SnapActiveWindow(  0,  0,  1,  1 )
+Capslock & Numpad6::SnapActiveWindow( .4,  0, .6,  1 )
+Capslock & Numpad1::SnapActiveWindow(  0, .5, .4, .5 )
+Capslock & Numpad2::SnapActiveWindow(  0, .6,  1, .4 )
+Capslock & Numpad3::SnapActiveWindow( .6, .5, .4, .5 )
+
+#If GetKeyState("Ctrl", "P") and GetKeyState("Alt", "P")
+
+Capslock & Numpad7::SnapActiveWindow(   0,  0, .33, .5 )
+Capslock & Numpad8::SnapActiveWindow( .33,  0, .33, .5 )
+Capslock & Numpad9::SnapActiveWindow( .67,  0, .33, .5 )
+Capslock & Numpad4::SnapActiveWindow(   0,  0, .33,  1 )
+Capslock & Numpad5::SnapActiveWindow( .33,  0, .33,  1 )
+Capslock & Numpad6::SnapActiveWindow( .67,  0, .33,  1 )
+Capslock & Numpad1::SnapActiveWindow(   0, .5, .33, .5 )
+Capslock & Numpad2::SnapActiveWindow( .33, .5, .33, .5 )
+Capslock & Numpad3::SnapActiveWindow( .67, .5, .33, .5 )
 
 #If
 
-; Directional Arrow Hotkeys
-Capslock & Up::    SnapActiveWindow("left", "top", "full", "half")
-Capslock & Down::  SnapActiveWindow("left", "bottom", "full", "half")
-Capslock & Left::  SnapActiveWindow("left", "top", "half", "full")
-Capslock & Right:: SnapActiveWindow("right", "top", "half", "full")
+Capslock & Up::    SnapActiveWindow(  0,  0,  1, .7 )
+Capslock & Down::  SnapActiveWindow(  0, .7,  1, .3 )
+Capslock & Left::  SnapActiveWindow(  0,  0, .7,  1 )
+Capslock & Right:: SnapActiveWindow( .7,  0, .3,  1 )
 
-; Numberpad Hotkeys (Landscape)
-Capslock & Numpad7::SnapActiveWindow("left", "top", "third", "half")
-Capslock & Numpad8::SnapActiveWindow("middle", "top", "third", "half")
-Capslock & Numpad9::SnapActiveWindow("right", "top", "third", "half")
-Capslock & Numpad4::SnapActiveWindow("left", "top", "third", "full")
-Capslock & Numpad5::SnapActiveWindow("middle", "top", "third", "full")
-Capslock & Numpad6::SnapActiveWindow("right", "top", "third", "full")
-Capslock & Numpad1::SnapActiveWindow("left", "bottom", "third", "half")
-Capslock & Numpad2::SnapActiveWindow("middle", "bottom", "third", "half")
-Capslock & Numpad3::SnapActiveWindow("right", "bottom", "third", "half")
+Capslock & Numpad7::SnapActiveWindow(  0,  0, .3, .5 )
+Capslock & Numpad8::SnapActiveWindow(  0,  0,  1, .7 )
+Capslock & Numpad9::SnapActiveWindow( .7,  0, .3, .5 )
+Capslock & Numpad4::SnapActiveWindow(  0,  0, .7,  1 )
+Capslock & Numpad5::SnapActiveWindow(  0,  0,  1,  1 )
+Capslock & Numpad6::SnapActiveWindow( .3,  0, .7,  1 )
+Capslock & Numpad1::SnapActiveWindow(  0, .5, .3, .5 )
+Capslock & Numpad2::SnapActiveWindow(  0, .7,  1, .3 )
+Capslock & Numpad3::SnapActiveWindow( .7, .5, .3, .5 )
 
 ; For keyboards without NumberPad keys
-^#!i::SnapActiveWindow("left", "top", "third", "half")
-^#!o::SnapActiveWindow("middle", "top", "third", "half")
-^#!p::SnapActiveWindow("right", "top", "third", "half")
-^#!k::SnapActiveWindow("left", "top", "third", "full")
-^#!l::SnapActiveWindow("middle", "top", "third", "full")
-^#!;::SnapActiveWindow("right", "top", "third", "full")
-^#!,::SnapActiveWindow("left", "bottom", "third", "half")
-^#!.::SnapActiveWindow("middle", "bottom", "third", "half")
-^#!/::SnapActiveWindow("right", "bottom", "third", "half")
+^#!i::SnapActiveWindow(  0,  0, .3, .5 )
+^#!o::SnapActiveWindow(  0,  0,  1, .7 )
+^#!p::SnapActiveWindow( .7,  0, .3, .5 )
+^#!k::SnapActiveWindow(  0,  0, .7,  1 )
+^#!l::SnapActiveWindow(  0,  0,  1,  1 )
+^#!;::SnapActiveWindow( .3,  0, .7,  1 )
+^#!,::SnapActiveWindow(  0, .5, .3, .5 )
+^#!.::SnapActiveWindow(  0, .7,  1, .3 )
+^#!/::SnapActiveWindow( .7, .5, .3, .5 )
