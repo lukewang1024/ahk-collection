@@ -75,6 +75,7 @@ ConEmuSwitchFocus(key)
 
 #include %A_ScriptDir%\parts
 #include AdvancedWindowSnap.ahk
+#include YABT.ahk
 #include AppShortcut.ahk
 #include WeChat.ahk
 
